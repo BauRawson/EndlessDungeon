@@ -7,7 +7,7 @@ The setup for this code was provided by AI. Didn't want to use much of my time o
 public class PlayerMovement : MonoBehaviour
 {
     [Header("Movement Settings")]
-    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 3f;
     
     // Components
     private Rigidbody2D rb;
