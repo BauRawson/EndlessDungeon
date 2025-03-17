@@ -11,6 +11,12 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void SetItemInstance(ItemInstance p_itemInstance)
     {
         itemInstance = p_itemInstance;
+
+        if (image == null)
+        {
+            image = GetComponent<Image>();
+        }
+
         image.sprite = itemInstance.itemData.sprite;
     }
 

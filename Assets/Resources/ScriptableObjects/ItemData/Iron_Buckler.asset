@@ -10,15 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a7111d7313e14c45a75a0bb4adea67f, type: 3}
-  m_Name: StartingSword
+  m_Name: Iron_Buckler
   m_EditorClassIdentifier: 
-  itemName: Starting Sword
-  sprite: {fileID: 21300000, guid: 62b96b53c8585514a996accd8ec7176d, type: 3}
-  description: Your faithful companion. If you discard this sword it means you are
-    a bad person with no heart!
-  attack: 10
-  defense: 0
+  itemName: Iron Buckler
+  sprite: {fileID: 21300000, guid: 81bc01d0c842adf4f8ec973eee3dd03d, type: 3}
+  description: A small iron shield that provides decent protection.
+  attack: 0
+  defense: 4
   health: 0
-  attackSpeed: 1
+  attackSpeed: 0
   knockbackPower: 0
   itemType: 0

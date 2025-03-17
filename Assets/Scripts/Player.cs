@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class Player : Character
 {
+    public Inventory inventory;
+
     protected override void GetMovementInput()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
@@ -18,7 +20,7 @@ public class Player : Character
 
     private void CheckForAttack()
     {
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 1f); // Check if the player is close to an enemy and attack
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 1f);
         foreach (var hitCollider in hitColliders)
         {
             if (hitCollider.CompareTag("Enemy"))
@@ -32,5 +34,6 @@ public class Player : Character
     public override void Attack()
     {
         Debug.Log("Player attacks!");
+        // Implement attack logic here
     }
 }

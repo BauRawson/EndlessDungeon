@@ -14,12 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemName: Chain
   sprite: {fileID: 21300000, guid: 8f632021aec4c444ea94ce210b209b78, type: 3}
-  description: 'Enhancement
-
-    Adds 3 attack and 3 defense to an equipment item'
-  attack: 3
-  defense: 3
+  description: A heavy chain that can be used as a flail-like weapon.
+  attack: 5
+  defense: 0
   health: 0
-  attackSpeed: 0
-  knockbackPower: 0
-  itemType: 2
+  attackSpeed: -0.1
+  knockbackPower: 3
+  itemType: 0

@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7111d7313e14c45a75a0bb4adea67f, type: 3}
+  m_Name: Double-Bladed_Axe
+  m_EditorClassIdentifier: 
+  itemName: Double-Bladed Axe
+  sprite: {fileID: 21300000, guid: 8ab678e4b9085c2489cb07fbf0f39674, type: 3}
+  description: A fearsome double-bladed axe that deals massive damage.
+  attack: 12
+  defense: 0
+  health: 0
+  attackSpeed: -0.3
+  knockbackPower: 7
+  itemType: 0

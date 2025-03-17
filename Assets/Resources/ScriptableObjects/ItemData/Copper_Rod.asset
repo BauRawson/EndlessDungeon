@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a7111d7313e14c45a75a0bb4adea67f, type: 3}
-  m_Name: Shield
+  m_Name: Copper_Rod
   m_EditorClassIdentifier: 
-  itemName: Shield
-  sprite: {fileID: 21300000, guid: f300b1fe0c628f04d8d7cd23c7d54950, type: 3}
-  description: Awesomest Shield in the land
+  itemName: Copper Rod
+  sprite: {fileID: 21300000, guid: 75bee18cf5c42a64684a82a645a457d9, type: 3}
+  description: A copper rod that can be used to enhance magical weapons.
   attack: 0
-  defense: 10
+  defense: 0
   health: 0
-  attackSpeed: 0
+  attackSpeed: 0.1
   knockbackPower: 0
-  itemType: 0
+  itemType: 2
