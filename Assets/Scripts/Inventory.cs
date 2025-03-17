@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -8,30 +7,19 @@ public class Inventory : MonoBehaviour
     private List<ItemInstance> items = new();
     [SerializeField] InventorySlot[] inventorySlots;
     [SerializeField] GameObject inventoryItemPrefab;
+    [SerializeField] Equipment equipment; // Reference to the Equipment component
 
     private void Start()
     {
-        DebugFillInventory();
+        LoadItemsList();
     }
 
-    private void DebugFillInventory()
+    private InventoryItem CreateInventoryItem(ItemInstance itemInstance)
     {
-        var itemDataArray = Resources.LoadAll<ItemData>("ScriptableObjects/ItemData");
-        for (int i = 0; i < Mathf.Min(4, itemDataArray.Length); i++)
-        {
-            var itemData = itemDataArray[i];
-            var inventoryItem = CreateInventoryItem(itemData, 1);
-            AddItem(inventoryItem);
-        }
-        
-        SaveItemsList();
-    }
-
-    private InventoryItem CreateInventoryItem(ItemData itemData, int amount)
-    {
+        Debug.Log("Creating InventoryItem for: " + itemInstance.itemData.itemName);
         var inventoryItemObject = Instantiate(inventoryItemPrefab);
         var inventoryItem = inventoryItemObject.GetComponent<InventoryItem>();
-        inventoryItem.SetItemInstance(new ItemInstance(itemData) { amount = amount });
+        inventoryItem.SetItemInstance(itemInstance);
         return inventoryItem;
     }
 
@@ -47,6 +35,8 @@ public class Inventory : MonoBehaviour
             items.Add(inventoryItem.itemInstance);
             AssignToSlot(inventoryItem);
         }
+
+        SaveItemsList();
     }
 
     public void RemoveItem(InventoryItem inventoryItem, int amount)
@@ -61,6 +51,8 @@ public class Inventory : MonoBehaviour
                 RemoveFromSlot(inventoryItem);
             }
         }
+
+        SaveItemsList();
     }
 
     private void AssignToSlot(InventoryItem inventoryItem)
@@ -89,9 +81,14 @@ public class Inventory : MonoBehaviour
 
     public void SaveItemsList()
     {
-        var json = JsonUtility.ToJson(new InventorySaveData(items));
+        var json = JsonUtility.ToJson(new InventorySaveData(items, inventorySlots));
         PlayerPrefs.SetString("Inventory", json);
         PlayerPrefs.Save();
+
+        if (equipment != null)
+        {
+            equipment.SaveEquipment(); // Save equipment as well
+        }
     }
 
     public void LoadItemsList()
@@ -99,8 +96,20 @@ public class Inventory : MonoBehaviour
         if (PlayerPrefs.HasKey("Inventory"))
         {
             var json = PlayerPrefs.GetString("Inventory");
+            Debug.Log(json);
             var data = JsonUtility.FromJson<InventorySaveData>(json);
-            items = data.ToItemInstances();
+            Debug.Log(data);
+            var itemInstances = data.ToItemInstances();
+
+            for (int i = 0; i < data.slotIndices.Count; i++)
+            {
+                int slotIndex = data.slotIndices[i];
+                if (slotIndex >= 0 && slotIndex < inventorySlots.Length)
+                {
+                    var inventoryItem = CreateInventoryItem(itemInstances[i]);
+                    inventorySlots[slotIndex].SetItem(inventoryItem);
+                }
+            }
         }
     }
 

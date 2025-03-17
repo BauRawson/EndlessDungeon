@@ -4,7 +4,7 @@ using UnityEngine;
 public class ItemInstance
 {
     public ItemData itemData;
-    public int amount;
+    public int amount = 1;
 
     // ToDo: Create a 'Stats' struct to hold these values
     public float attackModifier;

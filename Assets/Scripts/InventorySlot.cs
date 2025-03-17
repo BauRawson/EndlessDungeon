@@ -7,6 +7,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public void SetItem(InventoryItem p_item)
     {
+        Debug.Log("SetItem called for: " + p_item.itemInstance.itemData.itemName);
         item = p_item;
         if (p_item != null)
         {
@@ -23,9 +24,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             else
             {
                 var equipment = GetComponentInParent<Equipment>();
-                if (equipment != null)
+                if (equipment != null && item != null && item.itemInstance.itemData.itemType == ItemData.ItemType.Equipment)
                 {
-                    equipment.UpdatePlayerStats();
+                    equipment.EquipItem(p_item); // Call EquipItem when setting an item in equipment slot
                 }
             }
         }
@@ -43,6 +44,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public void SwapItem(InventorySlot otherSlot)
     {
+        Debug.Log("SwapItem called");
         var myItem = item;
         var otherItem = otherSlot.GetItem();
 
@@ -77,12 +79,18 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
+        Debug.Log("OnDrop called");
         GameObject dropped = eventData.pointerDrag;
         InventoryItem inventoryItem = dropped.GetComponent<InventoryItem>();
 
         if (inventoryItem != null)
         {
             InventorySlot previousSlot = inventoryItem.parentAfterDrag.GetComponent<InventorySlot>();
+            
+            if (previousSlot == this)
+            {
+                return;
+            }
 
             if (HasItem())
             {
@@ -106,37 +114,33 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             else
             {
                 previousSlot.RemoveItem(); // Ensure stats are updated when moving from equipment to inventory
-                previousSlot.item = null;
                 SetItem(inventoryItem);
-            }
-
-            var inventory = GetComponentInParent<Inventory>();
-            if (inventory != null)
-            {
-                inventory.UpdateItemList();
-                inventory.SaveItemsList();
-            }
-            else
-            {
-                var equipment = GetComponentInParent<Equipment>();
-                if (equipment != null)
-                {
-                    equipment.UpdatePlayerStats();
-                }
+                previousSlot.item = null;
             }
         }
     }
 
     public void RemoveItem()
     {
+        Debug.Log("RemoveItem called for: " + (item != null ? item.itemInstance.itemData.itemName : "null"));
         if (item != null)
         {
+            var tempItem = item; // Store item in a temporary variable
+            item = null;
+
+            var inventory = GetComponentInParent<Inventory>();
+            if (inventory != null)
+            {
+                Debug.Log("inventory is not null");
+                inventory.UpdateItemList();
+                inventory.SaveItemsList();
+            }
+
             var equipment = GetComponentInParent<Equipment>();
             if (equipment != null)
             {
-                equipment.UnequipItem(item);
+                equipment.UnequipItem(tempItem); // Use tempItem instead of item
             }
-            item = null;
         }
     }
 }

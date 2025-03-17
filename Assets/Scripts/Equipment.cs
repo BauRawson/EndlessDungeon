@@ -5,36 +5,41 @@ public class Equipment : MonoBehaviour
 {
     [SerializeField] private InventorySlot[] equipmentSlots;
     [SerializeField] private Player player;
+    [SerializeField] private GameObject InventoryItemPrefab;
+
+    private void Start()
+    {
+        LoadEquipment();
+    }
 
     public void EquipItem(InventoryItem inventoryItem)
     {
+        Debug.Log("EquipItem called for: " + inventoryItem.itemInstance.itemData.itemName);
+
         if (inventoryItem.itemInstance.itemData.itemType != ItemData.ItemType.Equipment)
         {
             return;
         }
 
-        foreach (var slot in equipmentSlots)
-        {
-            if (!slot.HasItem())
-            {
-                slot.SetItem(inventoryItem);
-                UpdatePlayerStats();
-                return;
-            }
-        }
+        UpdatePlayerStats();
+        SaveEquipment();
     }
 
     public void UnequipItem(InventoryItem inventoryItem)
     {
+        Debug.Log("UnequipItem called for: " + inventoryItem.itemInstance.itemData.itemName);
+
         foreach (var slot in equipmentSlots)
         {
             if (slot.GetItem() == inventoryItem)
             {
                 slot.SetItem(null);
-                UpdatePlayerStats();
-                return;
+                break;
             }
         }
+
+        UpdatePlayerStats();
+        SaveEquipment();
     }
 
     public void UpdatePlayerStats()
@@ -50,5 +55,56 @@ public class Equipment : MonoBehaviour
                 player.AddStats(item.itemInstance);
             }
         }
+    }
+
+    public void SaveEquipment()
+    {
+        var json = JsonUtility.ToJson(new InventorySaveData(GetEquipmentItems(), equipmentSlots));
+        PlayerPrefs.SetString("Equipment", json);
+        PlayerPrefs.Save();
+    }
+
+    public void LoadEquipment()
+    {
+        if (PlayerPrefs.HasKey("Equipment"))
+        {
+            var json = PlayerPrefs.GetString("Equipment");
+            Debug.Log("Loading Equipment: " + json);
+            var data = JsonUtility.FromJson<InventorySaveData>(json);
+            var itemInstances = data.ToItemInstances();
+
+            for (int i = 0; i < data.slotIndices.Count; i++)
+            {
+                int slotIndex = data.slotIndices[i];
+                if (slotIndex >= 0 && slotIndex < equipmentSlots.Length)
+                {
+                    var inventoryItem = CreateInventoryItem(itemInstances[i]);
+                    equipmentSlots[slotIndex].SetItem(inventoryItem);
+                }
+            }
+        }
+    }
+
+    private List<ItemInstance> GetEquipmentItems()
+    {
+        List<ItemInstance> items = new List<ItemInstance>();
+        foreach (var slot in equipmentSlots)
+        {
+            var inventoryItem = slot.GetItem();
+            if (inventoryItem != null)
+            {
+                items.Add(inventoryItem.itemInstance);
+            }
+        }
+        return items;
+    }
+
+    private InventoryItem CreateInventoryItem(ItemInstance itemInstance)
+    {
+        Debug.Log("Creating InventoryItem for: " + itemInstance.itemData.itemName);
+        var inventoryItemObject = Instantiate(InventoryItemPrefab);
+        var inventoryItem = inventoryItemObject.GetComponent<InventoryItem>();
+        inventoryItem.SetItemInstance(itemInstance);
+        return inventoryItem;
     }
 }

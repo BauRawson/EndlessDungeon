@@ -8,6 +8,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     [HideInInspector] public Transform parentAfterDrag;
     [SerializeField] Image image;
 
+    // filepath: e:\Unity\Projects\InventoryTest\Assets\Scripts\InventoryItem.cs
     public void SetItemInstance(ItemInstance p_itemInstance)
     {
         itemInstance = p_itemInstance;
@@ -17,7 +18,15 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             image = GetComponent<Image>();
         }
 
-        image.sprite = itemInstance.itemData.sprite;
+        if (itemInstance != null && itemInstance.itemData != null)
+        {
+            image.sprite = itemInstance.itemData.sprite;
+            Debug.Log("SetItemInstance: " + itemInstance.itemData.itemName);
+        }
+        else
+        {
+            Debug.LogError("ItemInstance or ItemData is null");
+        }
     }
 
     public void OnBeginDrag(PointerEventData eventData)
