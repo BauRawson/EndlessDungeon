@@ -1,7 +1,10 @@
 using UnityEngine;
+using System;
 
 public class Enemy : Character
 {
+    public event Action Defeated;
+
     protected override void GetMovementInput()
     {
         GameObject player = GameObject.FindGameObjectWithTag("Player");
@@ -15,5 +18,16 @@ public class Enemy : Character
     public override void Attack()
     {
         Debug.Log("Enemy attacks!");
+    }
+
+    public void OnDefeated()
+    {
+        Debug.Log("Enemy defeated!");
+        if (Defeated != null)
+        {
+            Defeated.Invoke();
+        }
+        
+        Destroy(gameObject);
     }
 }

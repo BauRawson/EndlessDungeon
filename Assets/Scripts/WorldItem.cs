@@ -6,7 +6,7 @@ public class WorldItem : MonoBehaviour
 {
     private ItemInstance itemInstance;
     [SerializeField] SpriteRenderer sprite;
-    [SerializeField] float pickUpRange = 2f;
+    [SerializeField] float pickUpRange = 1f;
     [SerializeField] GameObject InventoryItemPrefab;
 
     private Player player;

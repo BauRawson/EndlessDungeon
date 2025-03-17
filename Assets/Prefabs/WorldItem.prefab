@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sprite: {fileID: 8917760414861215400}
-  pickUpRange: 2
+  pickUpRange: 1
   InventoryItemPrefab: {fileID: 932999152406424338, guid: 6a464ba606246a046b6d5fee8c5e4aa3, type: 3}
 --- !u!212 &8917760414861215400
 SpriteRenderer:
@@ -88,7 +88,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9bea81ce0033dec45bf41c37ca24a38b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

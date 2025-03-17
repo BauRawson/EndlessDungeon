@@ -7,10 +7,23 @@ public class Door : MonoBehaviour {
     [SerializeField] private Sprite closedSprite;
     [SerializeField] private BoxCollider2D boxCollider2D;
 
+    private void Start()
+    {
+        if (isOpen) // The first level door will be open
+        {
+            Open();
+        }
+        else
+        {
+            Close();
+        }
+    }
+
     public void Open()
     {
         boxCollider2D.enabled = false;
         spriteRenderer.sprite = openSprite;
+        spriteRenderer.sortingOrder = 3;
         Debug.Log("Open Door!");
         isOpen = true;
     }
@@ -19,6 +32,7 @@ public class Door : MonoBehaviour {
     {
         boxCollider2D.enabled = true;
         spriteRenderer.sprite = closedSprite;
+        spriteRenderer.sortingOrder = 2;
         Debug.Log("Close Door!");
         isOpen = false;
     }

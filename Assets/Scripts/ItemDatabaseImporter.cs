@@ -5,6 +5,8 @@ using UnityEditor;
 
 public class ItemDatabaseImporter : MonoBehaviour
 {
+    // Only use this class if we are within Unity Editor
+    #if UNITY_EDITOR
     private const string jsonFilePath = "Assets/Scripts/ItemsDatabase.json"; // Update with your actual JSON path
     private const string savePath = "Assets/Resources/ScriptableObjects/ItemData/";
     private const string spritePath = "Assets/Sprites/Icons/";
@@ -99,4 +101,5 @@ public class ItemDatabaseImporter : MonoBehaviour
             _ => ItemData.ItemType.Equipment // Default fallback
         };
     }
+    #endif
 }
