@@ -14,8 +14,6 @@ public class Equipment : MonoBehaviour
 
     public void EquipItem(InventoryItem inventoryItem)
     {
-        Debug.Log("EquipItem called for: " + inventoryItem.itemInstance.itemData.itemName);
-
         if (inventoryItem.itemInstance.itemData.itemType != ItemData.ItemType.Equipment)
         {
             return;
@@ -27,8 +25,6 @@ public class Equipment : MonoBehaviour
 
     public void UnequipItem(InventoryItem inventoryItem)
     {
-        Debug.Log("UnequipItem called for: " + inventoryItem.itemInstance.itemData.itemName);
-
         foreach (var slot in equipmentSlots)
         {
             if (slot.GetItem() == inventoryItem)
@@ -44,8 +40,6 @@ public class Equipment : MonoBehaviour
 
     public void UpdatePlayerStats()
     {
-        Debug.Log("Updating player stats");
-
         player.ResetStats();
         foreach (var slot in equipmentSlots)
         {
@@ -69,7 +63,6 @@ public class Equipment : MonoBehaviour
         if (PlayerPrefs.HasKey("Equipment"))
         {
             var json = PlayerPrefs.GetString("Equipment");
-            Debug.Log("Loading Equipment: " + json);
             var data = JsonUtility.FromJson<InventorySaveData>(json);
             var itemInstances = data.ToItemInstances();
 
@@ -101,7 +94,6 @@ public class Equipment : MonoBehaviour
 
     private InventoryItem CreateInventoryItem(ItemInstance itemInstance)
     {
-        Debug.Log("Creating InventoryItem for: " + itemInstance.itemData.itemName);
         var inventoryItemObject = Instantiate(InventoryItemPrefab);
         var inventoryItem = inventoryItemObject.GetComponent<InventoryItem>();
         inventoryItem.SetItemInstance(itemInstance);

@@ -7,7 +7,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public void SetItem(InventoryItem p_item)
     {
-        Debug.Log("SetItem called for: " + p_item.itemInstance.itemData.itemName);
         item = p_item;
         if (p_item != null)
         {
@@ -44,7 +43,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public void SwapItem(InventorySlot otherSlot)
     {
-        Debug.Log("SwapItem called");
         var myItem = item;
         var otherItem = otherSlot.GetItem();
 
@@ -79,7 +77,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("OnDrop called");
         GameObject dropped = eventData.pointerDrag;
         InventoryItem inventoryItem = dropped.GetComponent<InventoryItem>();
 
@@ -122,7 +119,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
 
     public void RemoveItem()
     {
-        Debug.Log("RemoveItem called for: " + (item != null ? item.itemInstance.itemData.itemName : "null"));
         if (item != null)
         {
             var tempItem = item; // Store item in a temporary variable
@@ -131,7 +127,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             var inventory = GetComponentInParent<Inventory>();
             if (inventory != null)
             {
-                Debug.Log("inventory is not null");
                 inventory.UpdateItemList();
                 inventory.SaveItemsList();
             }

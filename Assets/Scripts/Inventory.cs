@@ -16,7 +16,6 @@ public class Inventory : MonoBehaviour
 
     private InventoryItem CreateInventoryItem(ItemInstance itemInstance)
     {
-        Debug.Log("Creating InventoryItem for: " + itemInstance.itemData.itemName);
         var inventoryItemObject = Instantiate(inventoryItemPrefab);
         var inventoryItem = inventoryItemObject.GetComponent<InventoryItem>();
         inventoryItem.SetItemInstance(itemInstance);
@@ -96,9 +95,7 @@ public class Inventory : MonoBehaviour
         if (PlayerPrefs.HasKey("Inventory"))
         {
             var json = PlayerPrefs.GetString("Inventory");
-            Debug.Log(json);
             var data = JsonUtility.FromJson<InventorySaveData>(json);
-            Debug.Log(data);
             var itemInstances = data.ToItemInstances();
 
             for (int i = 0; i < data.slotIndices.Count; i++)

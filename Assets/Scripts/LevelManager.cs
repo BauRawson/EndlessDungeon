@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Net.WebSockets;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -38,42 +39,12 @@ public class LevelManager : MonoBehaviour
 
     private void OnPlayerEnteredLevel()
     {
-        LoadNextLevel();
-        //StartCoroutine(TransitionLevel());
-    }
-
-    private IEnumerator TransitionLevel()
-    {
-        // Pause the game
-        Time.timeScale = 0f;
-
-        float duration = 1f;
-        Vector3 targetPosition = transform.position - Vector3.up * levelHeight;
-
-        float elapsed = 0f;
-        while (elapsed < duration)
-        {
-            elapsed += Time.unscaledDeltaTime;
-            transform.position = Vector3.Lerp(transform.position, targetPosition, elapsed / duration);
-            yield return null;
-        }
-
-        // Destroy the last level if it exists
-        if (lastLevel != null)
-        {
-            Destroy(lastLevel);
-        }
-
-        // Update level references
+        Debug.Log("HOLA");
+        var lastLevelTemp = lastLevel;
         lastLevel = currentLevel;
         currentLevel = nextLevel;
         nextLevel = null;
-        currentLevelIndex++;
-
-        // Resume the game
-        Time.timeScale = 1f;
-
-        // Load the next level
+        Destroy(lastLevelTemp);
         LoadNextLevel();
     }
 }
