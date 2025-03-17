@@ -16,10 +16,10 @@ public class Inventory : MonoBehaviour
 
     private void DebugFillInventory()
     {
-        for (int i = 0; i < 4; i++)
+        var itemDataArray = Resources.LoadAll<ItemData>("ScriptableObjects/ItemData");
+        for (int i = 0; i < Mathf.Min(4, itemDataArray.Length); i++)
         {
-            var itemData = ScriptableObject.CreateInstance<ItemData>();
-            itemData.itemName = "Debug Item " + i;
+            var itemData = itemDataArray[i];
             var inventoryItem = CreateInventoryItem(itemData, 1);
             AddItem(inventoryItem);
         }
@@ -31,7 +31,7 @@ public class Inventory : MonoBehaviour
     {
         var inventoryItemObject = Instantiate(inventoryItemPrefab);
         var inventoryItem = inventoryItemObject.GetComponent<InventoryItem>();
-        inventoryItem.itemInstance = new ItemInstance(itemData) { amount = amount };
+        inventoryItem.SetItemInstance(new ItemInstance(itemData) { amount = amount });
         return inventoryItem;
     }
 
@@ -115,5 +115,21 @@ public class Inventory : MonoBehaviour
                 items.Add(inventoryItem.itemInstance);
             }
         }
+    }
+
+    public bool CanAddItem(InventoryItem inventoryItem)
+    {
+        foreach (var slot in inventorySlots)
+        {
+            if (!slot.HasItem())
+            {
+                return true;
+            }
+            else if (slot.GetItem().itemInstance.itemData == inventoryItem.itemInstance.itemData)
+            {
+                return true; // Stack!
+            }
+        }
+        return false;
     }
 }

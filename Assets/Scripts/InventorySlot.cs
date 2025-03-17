@@ -13,6 +13,21 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             p_item.transform.SetParent(transform, false);
             p_item.transform.localPosition = Vector3.zero;
             p_item.parentAfterDrag = transform;
+
+            var inventory = GetComponentInParent<Inventory>();
+            if (inventory != null)
+            {
+                inventory.UpdateItemList();
+                inventory.SaveItemsList();
+            }
+            else
+            {
+                var equipment = GetComponentInParent<Equipment>();
+                if (equipment != null)
+                {
+                    equipment.UpdatePlayerStats();
+                }
+            }
         }
     }
 
@@ -30,25 +45,33 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         var myItem = item;
         var otherItem = otherSlot.GetItem();
-        
-        item = null;
-        otherSlot.item = null;
-        
+
+        RemoveItem();
+        otherSlot.RemoveItem();
+
         if (otherItem != null)
         {
             SetItem(otherItem);
         }
-        
+
         if (myItem != null)
         {
             otherSlot.SetItem(myItem);
         }
-        
+
         var inventory = GetComponentInParent<Inventory>();
         if (inventory != null)
         {
             inventory.UpdateItemList();
             inventory.SaveItemsList();
+        }
+        else
+        {
+            var equipment = GetComponentInParent<Equipment>();
+            if (equipment != null)
+            {
+                equipment.UpdatePlayerStats();
+            }
         }
     }
 
@@ -60,12 +83,18 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         if (inventoryItem != null)
         {
             InventorySlot previousSlot = inventoryItem.parentAfterDrag.GetComponent<InventorySlot>();
-            
+
             if (HasItem())
             {
                 if (item.itemInstance.itemData == inventoryItem.itemInstance.itemData)
                 {
                     item.itemInstance.amount += inventoryItem.itemInstance.amount;
+                    Destroy(inventoryItem.gameObject);
+                    previousSlot.item = null;
+                }
+                else if (inventoryItem.itemInstance.itemData.itemType == ItemData.ItemType.Enhancer && item.itemInstance.itemData.itemType == ItemData.ItemType.Equipment)
+                {
+                    item.Enhance(inventoryItem.itemInstance.itemData);
                     Destroy(inventoryItem.gameObject);
                     previousSlot.item = null;
                 }
@@ -76,16 +105,38 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             }
             else
             {
+                previousSlot.RemoveItem(); // Ensure stats are updated when moving from equipment to inventory
                 previousSlot.item = null;
                 SetItem(inventoryItem);
             }
-            
+
             var inventory = GetComponentInParent<Inventory>();
             if (inventory != null)
             {
                 inventory.UpdateItemList();
                 inventory.SaveItemsList();
             }
+            else
+            {
+                var equipment = GetComponentInParent<Equipment>();
+                if (equipment != null)
+                {
+                    equipment.UpdatePlayerStats();
+                }
+            }
+        }
+    }
+
+    public void RemoveItem()
+    {
+        if (item != null)
+        {
+            var equipment = GetComponentInParent<Equipment>();
+            if (equipment != null)
+            {
+                equipment.UnequipItem(item);
+            }
+            item = null;
         }
     }
 }

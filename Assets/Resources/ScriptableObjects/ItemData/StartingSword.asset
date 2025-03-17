@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6a7111d7313e14c45a75a0bb4adea67f, type: 3}
+  m_Name: StartingSword
+  m_EditorClassIdentifier: 
+  itemName: Starting Sword
+  sprite: {fileID: 21300000, guid: 62b96b53c8585514a996accd8ec7176d, type: 3}
+  description: Your faithful companion. If you discard this sword it means you are
+    a bad person with no heart!
+  attack: 10
+  defense: 0
+  health: 0
+  attackSpeed: 1
+  knockbackPower: 0
+  itemType: 0
