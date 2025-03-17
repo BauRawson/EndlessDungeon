@@ -10,9 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6a7111d7313e14c45a75a0bb4adea67f, type: 3}
-  m_Name: StartingSword
+  m_Name: Shield
   m_EditorClassIdentifier: 
-  itemName: Starting Sword
-  sprite: {fileID: 21300000, guid: 62b96b53c8585514a996accd8ec7176d, type: 3}
-  description: Your faithful companion. If you discard this sword it means you are
-    a bad person with no heart!
+  itemName: Shield
+  sprite: {fileID: 21300000, guid: f300b1fe0c628f04d8d7cd23c7d54950, type: 3}
+  description: Awesomest Shield in the land
