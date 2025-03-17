@@ -1159,7 +1159,7 @@ TilemapRenderer:
   m_MaxChunkCount: 16
   m_MaxFrameAge: 16
   m_SortOrder: 0
-  m_Mode: 0
+  m_Mode: 1
   m_DetectChunkCullingBounds: 0
   m_MaskInteraction: 0
 --- !u!1839735485 &1005319459
@@ -3381,9 +3381,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 3703936668665870641, guid: 3cdbe0c316008d043922c97c38cb0e97, type: 3}
+      propertyPath: m_Offset.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3725279203444105825, guid: 3cdbe0c316008d043922c97c38cb0e97, type: 3}
       propertyPath: m_SortingOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3725279203444105825, guid: 3cdbe0c316008d043922c97c38cb0e97, type: 3}
+      propertyPath: m_SpriteSortPoint
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8000546459026025716, guid: 3cdbe0c316008d043922c97c38cb0e97, type: 3}
       propertyPath: m_LocalPosition.x
