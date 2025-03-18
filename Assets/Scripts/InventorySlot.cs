@@ -1,9 +1,11 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 public class InventorySlot : MonoBehaviour, IDropHandler
 {
-    private InventoryItem item;
+    private InventoryItem item;    
+    public event Action<InventorySlot> SlotUpdated;
 
     public void SetItem(InventoryItem p_item)
     {
@@ -13,7 +15,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             p_item.transform.SetParent(transform, false);
             p_item.transform.localPosition = Vector3.zero;
             p_item.parentAfterDrag = transform;
-
+            
             var inventory = GetComponentInParent<Inventory>();
             if (inventory != null)
             {
@@ -31,6 +33,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 }
             }
         }
+        
+        SlotUpdated?.Invoke(this);
     }
 
     public InventoryItem GetItem()
@@ -60,21 +64,6 @@ public class InventorySlot : MonoBehaviour, IDropHandler
         {
             otherSlot.SetItem(myItem);
         }
-
-        var inventory = GetComponentInParent<Inventory>();
-        if (inventory != null)
-        {
-            inventory.UpdateItemList();
-            inventory.SaveItemsList();
-        }
-        else
-        {
-            var equipment = GetComponentInParent<Equipment>();
-            if (equipment != null)
-            {
-                equipment.UpdatePlayerStats();
-            }
-        }
     }
 
     public void OnDrop(PointerEventData eventData)
@@ -98,6 +87,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                     item.itemInstance.amount += inventoryItem.itemInstance.amount;
                     Destroy(inventoryItem.gameObject);
                     previousSlot.item = null;
+                    
+                    SlotUpdated?.Invoke(this);
+                    previousSlot.SlotUpdated?.Invoke(previousSlot);
                 }
                 else if (inventoryItem.itemInstance.itemData.itemType == ItemData.ItemType.Enhancer && item.itemInstance.itemData.itemType == ItemData.ItemType.Equipment)
                 {
@@ -105,6 +97,9 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                     AudioManager.Instance.PlaySound(AudioManager.SoundEffect.ItemEnhance);
                     Destroy(inventoryItem.gameObject);
                     previousSlot.item = null;
+                    
+                    SlotUpdated?.Invoke(this);
+                    previousSlot.SlotUpdated?.Invoke(previousSlot);
                 }
                 else
                 {
@@ -116,6 +111,8 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 previousSlot.RemoveItem(); // Ensure stats are updated when moving from equipment to inventory
                 SetItem(inventoryItem);
                 previousSlot.item = null;
+                
+                previousSlot.SlotUpdated?.Invoke(previousSlot);
             }
         }
     }
@@ -127,18 +124,13 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             var tempItem = item; // Store item in a temporary variable
             item = null;
 
-            var inventory = GetComponentInParent<Inventory>();
-            if (inventory != null)
-            {
-                inventory.UpdateItemList();
-                inventory.SaveItemsList();
-            }
-
             var equipment = GetComponentInParent<Equipment>();
             if (equipment != null)
             {
                 equipment.UnequipItem(tempItem); // Use tempItem instead of item
             }
+            
+            SlotUpdated?.Invoke(this);
         }
     }
 }

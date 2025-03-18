@@ -708,7 +708,6 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1346561221}
-  - {fileID: 1054835034}
   m_Father: {fileID: 446954471}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &491750541
@@ -4783,7 +4782,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 491750540}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1292570944251648284, guid: 3cdbe0c316008d043922c97c38cb0e97, type: 3}
       propertyPath: m_Name
@@ -5087,4 +5086,5 @@ SceneRoots:
   - {fileID: 382233276464865047}
   - {fileID: 1634246049}
   - {fileID: 446954471}
+  - {fileID: 4338942398036999508}
   - {fileID: 9023894077562913222}

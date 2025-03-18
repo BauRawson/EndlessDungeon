@@ -12,6 +12,28 @@ public class Inventory : MonoBehaviour
     private void Start()
     {
         LoadItemsList();
+        
+        foreach (var slot in inventorySlots)
+        {
+            slot.SlotUpdated += OnSlotUpdated;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        foreach (var slot in inventorySlots)
+        {
+            if (slot != null)
+            {
+                slot.SlotUpdated -= OnSlotUpdated;
+            }
+        }
+    }
+
+    private void OnSlotUpdated(InventorySlot slot)
+    {
+        UpdateItemList();
+        SaveItemsList();
     }
 
     private InventoryItem CreateInventoryItem(ItemInstance itemInstance)

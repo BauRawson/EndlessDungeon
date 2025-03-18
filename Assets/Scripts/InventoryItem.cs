@@ -70,24 +70,28 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
     public bool IsOnTopOfPlayer()
     {
-        // Check if we're dragging a consumable over the player
         if (itemInstance != null && itemInstance.itemData.itemType == ItemData.ItemType.Consumable)
         {
-            // Cast a ray from mouse position into the world
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+            Vector2 mouseWorldPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             
-            // Check if we hit the player
-            if (hit.collider != null && hit.collider.CompareTag("Player"))
+            float circleRadius = 1.0f;
+            
+            Collider2D[] hitColliders = Physics2D.OverlapCircleAll(mouseWorldPosition, circleRadius);
+            
+            foreach (Collider2D hitCollider in hitColliders)
             {
-                // Use the consumable on the player
-                Player player = hit.collider.GetComponent<Player>();
-                if (player != null)
+                if (hitCollider.CompareTag("Player"))
                 {
-                    player.Heal(itemInstance.itemData.health);
-                    AudioManager.Instance.PlaySound(AudioManager.SoundEffect.ItemConsume);
-                    Destroy(gameObject);
-                    return true;
+                    Player player = hitCollider.GetComponent<Player>();
+                    if (player != null)
+                    {
+                        player.Heal(itemInstance.itemData.health);
+                        AudioManager.Instance.PlaySound(AudioManager.SoundEffect.ItemConsume);
+                        player.inventory.Invoke("UpdateItemList", 0.1f);
+                        player.inventory.Invoke("SaveItemsList", 0.1f);
+                        Destroy(gameObject);
+                        return true;
+                    }
                 }
             }
         }

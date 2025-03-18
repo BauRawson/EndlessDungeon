@@ -42,7 +42,12 @@ public class LevelManager : MonoBehaviour
         lastLevel.CloseDoor();
         currentLevel = nextLevel;
         nextLevel = null;
-        Destroy(lastLevelTemp);
+
+        if (lastLevelTemp != null)
+        {
+            Destroy(lastLevelTemp.gameObject);
+        }
+        
         LoadNextLevel();
     }
 }

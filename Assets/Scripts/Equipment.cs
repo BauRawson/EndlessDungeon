@@ -10,6 +10,31 @@ public class Equipment : MonoBehaviour
     private void Start()
     {
         LoadEquipment();
+        
+        // Subscribe to SlotUpdated events for all equipment slots
+        foreach (var slot in equipmentSlots)
+        {
+            slot.SlotUpdated += OnSlotUpdated;
+        }
+    }
+
+    private void OnDestroy()
+    {
+        // Unsubscribe from all events when the component is destroyed
+        foreach (var slot in equipmentSlots)
+        {
+            if (slot != null)
+            {
+                slot.SlotUpdated -= OnSlotUpdated;
+            }
+        }
+    }
+
+    // Event handler for SlotUpdated
+    private void OnSlotUpdated(InventorySlot slot)
+    {
+        UpdatePlayerStats();
+        SaveEquipment();
     }
 
     public void EquipItem(InventoryItem inventoryItem)

@@ -170,7 +170,7 @@ MonoBehaviour:
   baseAttack: 1
   baseDefense: 0
   baseHealth: 10
-  baseAttackSpeed: 1
+  baseAttackSpeed: 0.5
   baseKnockbackPower: 1
   attack: 0
   defense: 0

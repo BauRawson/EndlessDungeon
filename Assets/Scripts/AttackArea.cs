@@ -41,7 +41,8 @@ public class AttackArea : MonoBehaviour
                     if (targetRb != null)
                     {
                         Vector2 knockbackDirection = (other.transform.position - transform.position).normalized;
-                        targetRb.AddForce(knockbackDirection * owner.knockbackPower, ForceMode2D.Impulse);
+                        targetRb.mass = 1;
+                        targetRb.AddForce(knockbackDirection * owner.knockbackPower * 10, ForceMode2D.Impulse);
                     }
                 }
             }

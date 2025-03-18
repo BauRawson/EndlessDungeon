@@ -22,7 +22,7 @@ public class Player : Character
 
     private void CheckForAttack()
     {
-        Vector2 attackPosition = (Vector2)transform.position + movementInput * 0.5f; // Adjust the distance as needed
+        Vector2 attackPosition = (Vector2)transform.position + movementInput * 0.25f; // Adjust the distance as needed
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPosition, 1f);
         foreach (var hitCollider in hitColliders)
         {

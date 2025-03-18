@@ -8,6 +8,7 @@ public class Enemy : Character
     private bool canAttack = true;
     public bool sleeping = true;
     private Player player;
+    private float distanceThreshold = 0.8f;
 
     private void Start()
     {
@@ -18,6 +19,14 @@ public class Enemy : Character
     {
         if (player != null)
         {
+            Vector2 distanceToPlayer = player.transform.position - transform.position;
+
+            if (distanceToPlayer.magnitude <= distanceThreshold)
+            {
+                movementInput = Vector2.zero;
+                return;
+            }
+
             Vector2 direction = (player.transform.position - transform.position).normalized;
             movementInput = direction;
         }
@@ -36,7 +45,7 @@ public class Enemy : Character
 
     private void CheckForAttack()
     {
-        Vector2 attackPosition = (Vector2)transform.position + movementInput * 0.25f; // Adjust the distance as needed
+        Vector2 attackPosition = (Vector2)transform.position + movementInput * 0.1f; // Adjust the distance as needed
         Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPosition, 1f);
         foreach (var hitCollider in hitColliders)
         {

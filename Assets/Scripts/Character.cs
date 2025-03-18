@@ -50,14 +50,14 @@ public abstract class Character : MonoBehaviour
 
     protected void MoveCharacter()
     {
-        if (movementInput == Vector2.zero)
+        /*if (movementInput == Vector2.zero)
         {
             rb.mass = 1000; // Ohhh such an ugly but beautiful hack -- Stop pushing me!
         }
         else
         {
             rb.mass = 1;
-        }
+        }*/
 
         rb.MovePosition(rb.position + movementInput * moveSpeed * Time.fixedDeltaTime);
         UpdateAttackAreaPosition();
