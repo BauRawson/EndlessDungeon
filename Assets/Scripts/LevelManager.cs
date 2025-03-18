@@ -5,27 +5,25 @@ using UnityEngine;
 public class LevelManager : MonoBehaviour
 {
     public GameObject[] levelPrefabs; // Assign in Inspector
-    private GameObject lastLevel;
-    private GameObject currentLevel;
-    private GameObject nextLevel;
+    private Level lastLevel;
+    private Level currentLevel;
+    private Level nextLevel;
     private int currentLevelIndex = 0;
     private int levelHeight = 12;
 
     private void Start()
     {
         // Load the initial level
-        currentLevel = transform.GetChild(0).gameObject;
-        Level currentLevelScript = currentLevel.GetComponent<Level>();
+        currentLevel = transform.GetChild(0).GetComponent<Level>();
 
         LoadNextLevel();
     }
 
     public void LoadNextLevel()
     {
-        Debug.Log("Load Next Level");
         // Randomly select the next level prefab
         int nextLevelIndex = Random.Range(0, levelPrefabs.Length);
-        nextLevel = Instantiate(levelPrefabs[nextLevelIndex], transform);
+        nextLevel = Instantiate(levelPrefabs[nextLevelIndex], transform).GetComponent<Level>();
         nextLevel.transform.position = currentLevel.transform.position + Vector3.up * levelHeight;
 
         // Connect to the EnemiesDefeated event
@@ -39,9 +37,9 @@ public class LevelManager : MonoBehaviour
 
     private void OnPlayerEnteredLevel()
     {
-        Debug.Log("HOLA");
         var lastLevelTemp = lastLevel;
         lastLevel = currentLevel;
+        lastLevel.CloseDoor();
         currentLevel = nextLevel;
         nextLevel = null;
         Destroy(lastLevelTemp);

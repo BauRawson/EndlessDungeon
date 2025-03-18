@@ -22,14 +22,20 @@ public class Level : MonoBehaviour
 
     private void OnEnemyDefeated()
     {
+        int remainingEnemies = 0;
+
         foreach (var enemy in enemies)
         {
             if (enemy != null)
             {
-                return;
+                remainingEnemies++;
             }
         }
-        OpenDoor();
+
+        if (remainingEnemies <= 1) // The last enemy isn't null yet but will be right after this.
+        {
+            OpenDoor();
+        }
     }
 
     public void OpenDoor()
@@ -50,7 +56,16 @@ public class Level : MonoBehaviour
             {
                 PlayerEntered.Invoke();
                 enteredLevel = true;
+                ActivateEnemies();
             }
+        }
+    }
+
+    private void ActivateEnemies()
+    {
+        foreach (var enemy in enemies)
+        {
+            enemy.sleeping = false;
         }
     }
 }
