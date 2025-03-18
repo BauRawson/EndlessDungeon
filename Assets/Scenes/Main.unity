@@ -639,7 +639,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelPrefabs:
   - {fileID: 4405497039648486123, guid: 9fca883440c3d7e4799a6848fc9a9327, type: 3}
-  - {fileID: 4405497039648486123, guid: 9fca883440c3d7e4799a6848fc9a9327, type: 3}
+  - {fileID: 4405497039648486123, guid: 8542d94557b7a8b4c975b3a0a00259f2, type: 3}
+  - {fileID: 4405497039648486123, guid: 7607eb22f9d9d2a4f9353559c0e1f1e8, type: 3}
+  - {fileID: 4405497039648486123, guid: 059ae34d63c8f2848a0f7ebd6b9bd7d0, type: 3}
+  - {fileID: 4405497039648486123, guid: 98900916fd791984fa6381f902f32e88, type: 3}
 --- !u!1 &468906842 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3305689895266271768, guid: 09c2ffc97596c43458f3189ad713ff0b, type: 3}
