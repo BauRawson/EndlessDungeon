@@ -52,6 +52,7 @@ public class AttackArea : MonoBehaviour
     {
         animator.SetTrigger("Attack");
         attackCollider.enabled = true;
+        AudioManager.Instance.PlaySound(AudioManager.SoundEffect.Attack);
         StartCoroutine(HandleAttackCooldown());
     }
 

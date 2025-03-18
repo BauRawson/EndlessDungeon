@@ -6,9 +6,12 @@ public class Door : MonoBehaviour {
     [SerializeField] private Sprite openSprite;
     [SerializeField] private Sprite closedSprite;
     [SerializeField] private BoxCollider2D boxCollider2D;
+    private Camera mainCamera;
 
     private void Start()
     {
+        mainCamera = Camera.main;
+
         if (isOpen) // The first level door will be open
         {
             Open();
@@ -25,10 +28,21 @@ public class Door : MonoBehaviour {
         spriteRenderer.sprite = openSprite;
         //spriteRenderer.sortingOrder = 3;
         isOpen = true;
+        float distanceToCamera = transform.position.y - mainCamera.transform.position.y;
+        if (distanceToCamera <= 6) // Hacky but beautiful!
+        {
+            AudioManager.Instance.PlaySound(AudioManager.SoundEffect.DoorOpen);
+        }
     }
 
     public void Close()
     {
+        float distanceToCamera = transform.position.y - mainCamera.transform.position.y;
+        if (distanceToCamera <= 6)
+        {
+            AudioManager.Instance.PlaySound(AudioManager.SoundEffect.DoorClose);
+        }
+
         boxCollider2D.enabled = true;
         spriteRenderer.sprite = closedSprite;
         //spriteRenderer.sortingOrder = 2;

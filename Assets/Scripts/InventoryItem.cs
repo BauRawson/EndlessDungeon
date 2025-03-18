@@ -85,6 +85,7 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
                 if (player != null)
                 {
                     player.Heal(itemInstance.itemData.health);
+                    AudioManager.Instance.PlaySound(AudioManager.SoundEffect.ItemConsume);
                     Destroy(gameObject);
                     return true;
                 }

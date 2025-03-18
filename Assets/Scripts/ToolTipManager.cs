@@ -22,6 +22,26 @@ public class ToolTipManager : MonoBehaviour
     private void Start()
     {
         Instance = this;
+
+        StartCoroutine(PreWarmTooltip());
+    }
+
+    private IEnumerator PreWarmTooltip()
+    {
+        ItemData itemData = ItemManager.Instance.GetRandomItemData();
+        ItemInstance dummyItem = new ItemInstance(itemData);
+
+        // Some modifiers to trigger the color formatting
+        dummyItem.attackModifier = 1;
+        
+        // Show the tooltip with the dummy item
+        Show(dummyItem);
+        
+        // Wait for one frame to let TMP do its work
+        yield return null;
+        
+        // Hide the tooltip
+        Hide();
     }
 
     private void Update()
@@ -34,87 +54,89 @@ public class ToolTipManager : MonoBehaviour
     }
 
     public void Show(ItemInstance itemInstance)
-{
-    ToolTipCanvasGroup.alpha = 0;
+    {
+        AudioManager.Instance.PlaySound(AudioManager.SoundEffect.UIHover);
 
-    title.text = itemInstance.itemData.itemName;
-    details.text = itemInstance.itemData.description + "\n\n";
+        ToolTipCanvasGroup.alpha = 0;
 
-    details.text += "Attack: " + itemInstance.itemData.attack;
-    if (itemInstance.attackModifier != 0)
-    {
-        details.text += "<color=#" + ColorUtility.ToHtmlStringRGB(plusColor) + ">+" + itemInstance.attackModifier + "</color>\n";
-    }
-    else
-    {
-        details.text += "\n";
-    }
+        title.text = itemInstance.itemData.itemName;
+        details.text = itemInstance.itemData.description + "\n\n";
 
-    details.text += "Defense: " + itemInstance.itemData.defense;
-    if (itemInstance.defenseModifier != 0)
-    {
-        details.text += "<color=#" + ColorUtility.ToHtmlStringRGB(plusColor) + ">+" + itemInstance.defenseModifier + "</color>\n";
-    }
-    else
-    {
-        details.text += "\n";
-    }
+        details.text += "Attack: " + itemInstance.itemData.attack;
+        if (itemInstance.attackModifier != 0)
+        {
+            details.text += "<color=#" + ColorUtility.ToHtmlStringRGB(plusColor) + ">+" + itemInstance.attackModifier + "</color>\n";
+        }
+        else
+        {
+            details.text += "\n";
+        }
 
-    details.text += "Health: " + itemInstance.itemData.health;
-    if (itemInstance.healthModifier != 0)
-    {
-        details.text += "<color=#" + ColorUtility.ToHtmlStringRGB(plusColor) + ">+" + itemInstance.healthModifier + "</color>\n";
-    }
-    else
-    {
-        details.text += "\n";
-    }
+        details.text += "Defense: " + itemInstance.itemData.defense;
+        if (itemInstance.defenseModifier != 0)
+        {
+            details.text += "<color=#" + ColorUtility.ToHtmlStringRGB(plusColor) + ">+" + itemInstance.defenseModifier + "</color>\n";
+        }
+        else
+        {
+            details.text += "\n";
+        }
 
-    details.text += "Attack Speed: " + itemInstance.itemData.attackSpeed;
-    if (itemInstance.attackSpeedModifier != 0)
-    {
-        details.text += "<color=#" + ColorUtility.ToHtmlStringRGB(plusColor) + ">+" + itemInstance.attackSpeedModifier + "</color>\n";
-    }
-    else
-    {
-        details.text += "\n";
-    }
+        details.text += "Health: " + itemInstance.itemData.health;
+        if (itemInstance.healthModifier != 0)
+        {
+            details.text += "<color=#" + ColorUtility.ToHtmlStringRGB(plusColor) + ">+" + itemInstance.healthModifier + "</color>\n";
+        }
+        else
+        {
+            details.text += "\n";
+        }
 
-    details.text += "Knockback Power: " + itemInstance.itemData.knockbackPower;
-    if (itemInstance.knockbackPowerModifier != 0)
-    {
-        details.text += "<color=#" + ColorUtility.ToHtmlStringRGB(plusColor) + ">+" + itemInstance.knockbackPowerModifier + "</color>\n";
-    }
-    else
-    {
-        details.text += "\n";
-    }
+        details.text += "Attack Speed: " + itemInstance.itemData.attackSpeed;
+        if (itemInstance.attackSpeedModifier != 0)
+        {
+            details.text += "<color=#" + ColorUtility.ToHtmlStringRGB(plusColor) + ">+" + itemInstance.attackSpeedModifier + "</color>\n";
+        }
+        else
+        {
+            details.text += "\n";
+        }
 
-    // Color the item type based on its value
-    Color typeColor;
-    switch (itemInstance.itemData.itemType)
-    {
-        case ItemData.ItemType.Equipment:
-            typeColor = equipmentColor;
-            break;
-        case ItemData.ItemType.Consumable:
-            typeColor = consumableColor;
-            break;
-        case ItemData.ItemType.Enhancer:
-            typeColor = enhancerColor;
-            break;
-        default:
-            typeColor = Color.white;
-            break;
+        details.text += "Knockback Power: " + itemInstance.itemData.knockbackPower;
+        if (itemInstance.knockbackPowerModifier != 0)
+        {
+            details.text += "<color=#" + ColorUtility.ToHtmlStringRGB(plusColor) + ">+" + itemInstance.knockbackPowerModifier + "</color>\n";
+        }
+        else
+        {
+            details.text += "\n";
+        }
+
+        // Color the item type based on its value
+        Color typeColor;
+        switch (itemInstance.itemData.itemType)
+        {
+            case ItemData.ItemType.Equipment:
+                typeColor = equipmentColor;
+                break;
+            case ItemData.ItemType.Consumable:
+                typeColor = consumableColor;
+                break;
+            case ItemData.ItemType.Enhancer:
+                typeColor = enhancerColor;
+                break;
+            default:
+                typeColor = Color.white;
+                break;
+        }
+
+        details.text += "Type: <color=#" + ColorUtility.ToHtmlStringRGB(typeColor) + ">" + 
+                        itemInstance.itemData.itemType.ToString() + "</color>";
+
+        ToolTipTransform.gameObject.SetActive(true);
+        isShowing = true;
+        StartCoroutine(FadeIn());
     }
-
-    details.text += "Type: <color=#" + ColorUtility.ToHtmlStringRGB(typeColor) + ">" + 
-                    itemInstance.itemData.itemType.ToString() + "</color>";
-
-    ToolTipTransform.gameObject.SetActive(true);
-    isShowing = true;
-    StartCoroutine(FadeIn());
-}
 
     private void AdjustBackgroundPosition()
     {

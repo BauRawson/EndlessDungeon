@@ -9,7 +9,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
     {
         item = p_item;
         if (p_item != null)
-        {
+        { 
             p_item.transform.SetParent(transform, false);
             p_item.transform.localPosition = Vector3.zero;
             p_item.parentAfterDrag = transform;
@@ -17,6 +17,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
             var inventory = GetComponentInParent<Inventory>();
             if (inventory != null)
             {
+                AudioManager.Instance.PlaySound(AudioManager.SoundEffect.ItemPickup);
                 inventory.UpdateItemList();
                 inventory.SaveItemsList();
             }
@@ -25,6 +26,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 var equipment = GetComponentInParent<Equipment>();
                 if (equipment != null && item != null && item.itemInstance.itemData.itemType == ItemData.ItemType.Equipment)
                 {
+                    AudioManager.Instance.PlaySound(AudioManager.SoundEffect.ItemEquip);
                     equipment.EquipItem(p_item); // Call EquipItem when setting an item in equipment slot
                 }
             }
@@ -100,6 +102,7 @@ public class InventorySlot : MonoBehaviour, IDropHandler
                 else if (inventoryItem.itemInstance.itemData.itemType == ItemData.ItemType.Enhancer && item.itemInstance.itemData.itemType == ItemData.ItemType.Equipment)
                 {
                     item.Enhance(inventoryItem.itemInstance.itemData);
+                    AudioManager.Instance.PlaySound(AudioManager.SoundEffect.ItemEnhance);
                     Destroy(inventoryItem.gameObject);
                     previousSlot.item = null;
                 }

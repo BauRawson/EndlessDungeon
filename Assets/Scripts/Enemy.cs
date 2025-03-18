@@ -84,16 +84,17 @@ public class Enemy : Character
             Defeated.Invoke();
         }
 
-        if (UnityEngine.Random.Range(0f, 1f) < 0.1f)
+        if (UnityEngine.Random.Range(0f, 1f) < 0.2f)
         {
             SpawnWorldItem();
         }
-        
+
         Destroy(gameObject);
     }
 
     public void SpawnWorldItem()
     {
+        AudioManager.Instance.PlaySound(AudioManager.SoundEffect.ItemPickup);
         WorldItem worldItem = ItemManager.Instance.GetRandomWorldItem();
         worldItem.transform.position = transform.position;
     }
