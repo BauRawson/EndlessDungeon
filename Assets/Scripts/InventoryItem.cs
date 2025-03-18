@@ -2,7 +2,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
+public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IPointerEnterHandler, IPointerExitHandler
 {
     public ItemInstance itemInstance;
     [HideInInspector] public Transform parentAfterDrag;
@@ -54,5 +54,15 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
         itemInstance.healthModifier += enhancementData.health;
         itemInstance.attackSpeedModifier += enhancementData.attackSpeed;
         itemInstance.knockbackPowerModifier += enhancementData.knockbackPower;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        ToolTipManager.Instance.Show(itemInstance);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        ToolTipManager.Instance.Hide();
     }
 }
