@@ -45,4 +45,10 @@ public class ItemManager : MonoBehaviour
         worldItem.SetItemInstance(new ItemInstance(GetRandomItemData()));
         return worldItem;
     }
+    public WorldItem GetRandomWorldItem(Vector2 startPosition)
+    {
+        WorldItem worldItem = Instantiate(worldItemPrefab);
+        worldItem.SetItemInstance(new ItemInstance(GetRandomItemData()), startPosition);
+        return worldItem;
+    }
 }

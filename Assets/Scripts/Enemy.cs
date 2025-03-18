@@ -115,7 +115,6 @@ public class Enemy : Character
     public void SpawnWorldItem()
     {
         AudioManager.Instance.PlaySound(AudioManager.SoundEffect.ItemPickup);
-        WorldItem worldItem = ItemManager.Instance.GetRandomWorldItem();
-        worldItem.transform.position = transform.position;
+        WorldItem worldItem = ItemManager.Instance.GetRandomWorldItem(transform.position);
     }
 }

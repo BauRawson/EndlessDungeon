@@ -91,4 +91,11 @@ MonoBehaviour:
   itemInstance:
     itemData: {fileID: 0}
     amount: 0
+    attackModifier: 0
+    defenseModifier: 0
+    healthModifier: 0
+    attackSpeedModifier: 0
+    knockbackPowerModifier: 0
+  parentAfterDrag: {fileID: 0}
   image: {fileID: 6033965873731145002}
+  worldItemPrefab: {fileID: 4849879378058718465, guid: 9ef7c0c91db24d04fbda71cbf3e0ee7e, type: 3}

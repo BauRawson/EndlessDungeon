@@ -7,6 +7,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public ItemInstance itemInstance;
     [HideInInspector] public Transform parentAfterDrag;
     [SerializeField] Image image;
+    [SerializeField] GameObject worldItemPrefab; // Reference to the WorldItem prefab
+
+    private bool droppedOutsideUI = false;
+    private InventorySlot originalSlot;
 
     public void SetItemInstance(ItemInstance p_itemInstance)
     {
@@ -30,9 +34,11 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnBeginDrag(PointerEventData eventData)
     {
         parentAfterDrag = transform.parent;
+        originalSlot = parentAfterDrag.GetComponent<InventorySlot>();
         transform.SetParent(transform.root, true);
         transform.SetAsLastSibling(); // So it renders on top of other UI elements
         image.raycastTarget = false;
+        droppedOutsideUI = true;
     }
 
     public void OnDrag(PointerEventData eventData)
@@ -43,9 +49,71 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         image.raycastTarget = true;
-        if (!IsOnTopOfPlayer())
+        
+        if (eventData.pointerCurrentRaycast.gameObject != null)
         {
-            transform.SetParent(parentAfterDrag); // If it's dragged on top of an InventorySlot, InventorySlot.OnDrop() will handle the rest.
+            if (eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>() != null ||
+                eventData.pointerCurrentRaycast.gameObject.transform.parent.GetComponent<InventorySlot>() != null)
+            {
+                droppedOutsideUI = false;
+            }
+        }
+
+        if (IsOnTopOfPlayer())
+        {
+            droppedOutsideUI = false;
+        }
+        else if (droppedOutsideUI)
+        {
+            DropItemToWorld();
+        }
+        else
+        {
+            transform.SetParent(parentAfterDrag);
+        }
+    }
+
+    private void DropItemToWorld()
+    {
+        if (worldItemPrefab != null)
+        {
+            Player player = FindObjectOfType<Player>();
+            if (player != null)
+            {
+                GameObject worldItemObj = Instantiate(worldItemPrefab, player.transform.position, Quaternion.identity);
+                WorldItem worldItem = worldItemObj.GetComponent<WorldItem>();
+                AudioManager.Instance.PlaySound(AudioManager.SoundEffect.ItemPickup);
+                
+                if (worldItem != null)
+                {
+                    worldItem.SetItemInstance(itemInstance);
+                    
+                    Vector2 randomOffset = Random.insideUnitCircle * 0.5f;
+                    worldItemObj.transform.position += new Vector3(randomOffset.x, randomOffset.y, 0);
+
+                    if (originalSlot != null)
+                    {
+                        originalSlot.RemoveItem();
+                    }
+                    
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    Debug.LogError("WorldItem component not found on prefab");
+                    transform.SetParent(parentAfterDrag);
+                }
+            }
+            else
+            {
+                Debug.LogError("Player not found in the scene");
+                transform.SetParent(parentAfterDrag);
+            }
+        }
+        else
+        {
+            Debug.LogError("WorldItem prefab not assigned in InventoryItem");
+            transform.SetParent(parentAfterDrag);
         }
     }
 
