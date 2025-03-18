@@ -4072,11 +4072,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   parentCanvas: {fileID: 630573788}
-  ToolTripTransform: {fileID: 1081233184}
+  ToolTipTransform: {fileID: 1081233184}
   title: {fileID: 616345762}
   details: {fileID: 776393572}
   background: {fileID: 371449805}
   ToolTipCanvasGroup: {fileID: 371449806}
+  plusColor: {r: 0.13333333, g: 0.54509807, b: 0.49077597, a: 0}
+  equipmentColor: {r: 0.13333333, g: 0.2177003, b: 0.54509807, a: 0}
+  consumableColor: {r: 0.13333334, g: 0.54509807, b: 0.13333334, a: 0}
+  enhancerColor: {r: 0.5154292, g: 0.13333333, b: 0.54509807, a: 0}
 --- !u!1 &1634246047
 GameObject:
   m_ObjectHideFlags: 0
