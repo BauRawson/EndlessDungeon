@@ -167,9 +167,9 @@ MonoBehaviour:
   moveSpeed: 2
   attackArea: {fileID: 292709040677157556}
   healthComponent: {fileID: 8351760143708679278}
-  baseAttack: 10
-  baseDefense: 5
-  baseHealth: 100
+  baseAttack: 1
+  baseDefense: 0
+  baseHealth: 10
   baseAttackSpeed: 1
   baseKnockbackPower: 1
   attack: 0
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a088836a20cf0764ba8aa41ee27b8d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 10
   currentHealth: 0
 --- !u!1001 &1411765487022897253
 PrefabInstance:
@@ -309,6 +309,10 @@ PrefabInstance:
     - target: {fileID: 7866646824864142310, guid: 5d6708c3c63f49943b43395e9d2f20d2, type: 3}
       propertyPath: m_Name
       value: AttackArea
+      objectReference: {fileID: 0}
+    - target: {fileID: 8490529878804851959, guid: 5d6708c3c63f49943b43395e9d2f20d2, type: 3}
+      propertyPath: targetTag
+      value: Player
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

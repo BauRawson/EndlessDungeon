@@ -4,6 +4,7 @@ using UnityEngine;
 public class ItemManager : MonoBehaviour
 {
     public static ItemManager Instance { get; private set; }
+    [SerializeField] WorldItem worldItemPrefab;
 
     private List<ItemData> itemDataList;
 
@@ -36,5 +37,12 @@ public class ItemManager : MonoBehaviour
 
         int randomIndex = Random.Range(0, itemDataList.Count);
         return itemDataList[randomIndex];
+    }
+
+    public WorldItem GetRandomWorldItem()
+    {
+        WorldItem worldItem = Instantiate(worldItemPrefab);
+        worldItem.SetItemInstance(new ItemInstance(GetRandomItemData()));
+        return worldItem;
     }
 }

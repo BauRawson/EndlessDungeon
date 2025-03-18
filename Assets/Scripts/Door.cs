@@ -23,7 +23,7 @@ public class Door : MonoBehaviour {
     {
         boxCollider2D.enabled = false;
         spriteRenderer.sprite = openSprite;
-        spriteRenderer.sortingOrder = 3;
+        //spriteRenderer.sortingOrder = 3;
         isOpen = true;
     }
 
@@ -31,7 +31,7 @@ public class Door : MonoBehaviour {
     {
         boxCollider2D.enabled = true;
         spriteRenderer.sprite = closedSprite;
-        spriteRenderer.sortingOrder = 2;
+        //spriteRenderer.sortingOrder = 2;
         isOpen = false;
     }
 }

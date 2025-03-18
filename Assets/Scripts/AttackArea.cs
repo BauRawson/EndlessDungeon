@@ -17,8 +17,9 @@ public class AttackArea : MonoBehaviour
     {
         if (other.CompareTag(targetTag))
         {
-            Health health = other.GetComponent<Health>();
-            if (health != null)
+            Character character = other.GetComponent<Character>();
+
+            if (character != null)
             {
                 float finalDamage = 0f;
                 if (owner != null)
@@ -32,7 +33,7 @@ public class AttackArea : MonoBehaviour
                     }
                 }
                 
-                health.TakeDamage(finalDamage);
+                character.TakeDamage(finalDamage);
                 
                 if (owner != null && owner.knockbackPower > 0)
                 {

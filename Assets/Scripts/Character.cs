@@ -110,4 +110,13 @@ public abstract class Character : MonoBehaviour
     }
 
     public abstract void Attack();
+    public virtual void TakeDamage(float damage)
+    {
+        healthComponent.TakeDamage(damage);
+    }
+
+    public virtual void Heal(float amount)
+    {
+        healthComponent.Heal(amount);
+    }
 }

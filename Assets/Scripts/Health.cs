@@ -17,7 +17,9 @@ public class Health : MonoBehaviour
     public void TakeDamage(float damageAmount)
     {
         if (currentHealth <= 0)
+        {
             return;
+        }
 
         currentHealth -= damageAmount;
         currentHealth = Mathf.Max(0, currentHealth);
@@ -33,7 +35,9 @@ public class Health : MonoBehaviour
     public void Heal(float healAmount)
     {
         if (currentHealth <= 0)
+        {
             return;
+        }
 
         float oldHealth = currentHealth;
         currentHealth += healAmount;

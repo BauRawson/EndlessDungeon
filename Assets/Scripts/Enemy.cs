@@ -31,6 +31,21 @@ public class Enemy : Character
         }
 
         base.Update();
+        CheckForAttack();
+    }
+
+    private void CheckForAttack()
+    {
+        Vector2 attackPosition = (Vector2)transform.position + movementInput * 0.25f; // Adjust the distance as needed
+        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackPosition, 1f);
+        foreach (var hitCollider in hitColliders)
+        {
+            if (hitCollider.CompareTag("Player") && canAttack)
+            {
+                Attack();
+                break;
+            }
+        }
     }
 
     public override void Attack()
@@ -40,26 +55,9 @@ public class Enemy : Character
             return;
         }
 
-        Debug.Log("Enemy attacks!");
         attackArea.Attack();
         canAttack = false;
         StartCoroutine(HandleAttackCooldown());
-
-        // Deal damage to the player if in the attack area
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackArea.transform.position, 1f);
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.CompareTag("Player"))
-            {
-                Player player = hitCollider.GetComponent<Player>();
-                if (player != null)
-                {
-                    float damage = attack - player.defense;
-                    damage = Mathf.Max(damage, 0); // Ensure damage is not negative
-                    player.TakeDamage(damage);
-                }
-            }
-        }
     }
 
     private IEnumerator HandleAttackCooldown()
@@ -68,9 +66,10 @@ public class Enemy : Character
         canAttack = true;
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
         healthComponent.TakeDamage(damage);
+
         if (healthComponent.GetCurrentHealth() <= 0)
         {
             OnDefeated();
@@ -84,7 +83,18 @@ public class Enemy : Character
         {
             Defeated.Invoke();
         }
+
+        if (UnityEngine.Random.Range(0f, 1f) < 0.1f)
+        {
+            SpawnWorldItem();
+        }
         
         Destroy(gameObject);
+    }
+
+    public void SpawnWorldItem()
+    {
+        WorldItem worldItem = ItemManager.Instance.GetRandomWorldItem();
+        worldItem.transform.position = transform.position;
     }
 }

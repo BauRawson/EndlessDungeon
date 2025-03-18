@@ -105,9 +105,9 @@ MonoBehaviour:
   moveSpeed: 3
   attackArea: {fileID: 7816181351531265032}
   healthComponent: {fileID: 723133948081681293}
-  baseAttack: 10
-  baseDefense: 5
-  baseHealth: 100
+  baseAttack: 2
+  baseDefense: 1
+  baseHealth: 10
   baseAttackSpeed: 1
   baseKnockbackPower: 1
   attack: 0
@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a088836a20cf0764ba8aa41ee27b8d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 10
   currentHealth: 0
 --- !u!50 &5738192569109550383
 Rigidbody2D:

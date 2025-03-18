@@ -43,39 +43,12 @@ public class Player : Character
 
         attackArea.Attack();
         canAttack = false;
-        Debug.Log("Player attacks!");
         StartCoroutine(HandleAttackCooldown());
-
-        // Deal damage to enemies in the attack area
-        Collider2D[] hitColliders = Physics2D.OverlapCircleAll(attackArea.transform.position, 1f);
-        foreach (var hitCollider in hitColliders)
-        {
-            if (hitCollider.CompareTag("Enemy"))
-            {
-                Enemy enemy = hitCollider.GetComponent<Enemy>();
-                if (enemy != null)
-                {
-                    float damage = attack - enemy.defense;
-                    damage = Mathf.Max(damage, 0); // Ensure damage is not negative
-                    enemy.TakeDamage(damage);
-                }
-            }
-        }
     }
 
     private IEnumerator HandleAttackCooldown()
     {
         yield return new WaitForSeconds(1f / attackSpeed - 0.1f);
         canAttack = true;
-    }
-
-    public void TakeDamage(float damage)
-    {
-        healthComponent.TakeDamage(damage);
-    }
-
-    public void Heal(float amount)
-    {
-        healthComponent.Heal(amount);
     }
 }

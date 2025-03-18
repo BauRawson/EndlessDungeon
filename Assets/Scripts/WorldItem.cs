@@ -11,10 +11,9 @@ public class WorldItem : MonoBehaviour
 
     private Player player;
 
-    private void Start()
+    public void SetItemInstance(ItemInstance p_itemInstance)
     {
-        itemInstance = new ItemInstance(ItemManager.Instance.GetRandomItemData());
-
+        this.itemInstance = p_itemInstance;
         sprite.sprite = itemInstance.itemData.sprite;
         player = FindObjectOfType<Player>();
     }
