@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Player : Character
 {
@@ -50,5 +51,22 @@ public class Player : Character
     {
         yield return new WaitForSeconds(1f / attackSpeed - 0.1f);
         canAttack = true;
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        healthComponent.TakeDamage(damage);
+
+        if (healthComponent.GetCurrentHealth() <= 0)
+        {
+            OnDefeated();
+        }
+    }
+
+    public void OnDefeated()
+    {
+        // Reload the scene
+        Scene scene = SceneManager.GetActiveScene();
+        SceneManager.LoadScene(scene.name);
     }
 }

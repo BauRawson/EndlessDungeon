@@ -1,5 +1,6 @@
-# InventoryTest
- 
+# Endless Dungeon
+
+![Game Screenshot](Assets/Sprites/Screenshot.png)
 
 ### Assets used
 Dungeon Tileset: https://jonik9i.itch.io/free-pixel-dungeon-game-asset</br>
