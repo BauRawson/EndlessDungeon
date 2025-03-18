@@ -15,6 +15,17 @@ public class Enemy : Character
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
     }
 
+    public void Initialize(int p_difficultyMultiplier)
+    {
+        float difficultyMultiplier = p_difficultyMultiplier / 10.0f;
+        attack = baseAttack + baseAttack * difficultyMultiplier;
+        defense = baseDefense + baseDefense * difficultyMultiplier;
+        health = baseHealth + baseHealth * difficultyMultiplier;
+        attackSpeed = baseAttackSpeed + baseAttackSpeed * difficultyMultiplier;
+        
+        healthComponent.SetMaxHealth(health);     
+    }
+
     protected override void GetMovementInput()
     {
         if (player != null)

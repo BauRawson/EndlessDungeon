@@ -22,6 +22,7 @@ public class LevelManager : MonoBehaviour
     public void LoadNextLevel()
     {
         // Randomly select the next level prefab
+        currentLevelIndex++;
         int nextLevelIndex = Random.Range(0, levelPrefabs.Length);
         nextLevel = Instantiate(levelPrefabs[nextLevelIndex], transform).GetComponent<Level>();
         nextLevel.transform.position = currentLevel.transform.position + Vector3.up * levelHeight;
@@ -32,6 +33,7 @@ public class LevelManager : MonoBehaviour
         {
             nextLevelScript.PlayerEntered += OnPlayerEnteredLevel;
             nextLevelScript.levelReady = true; // So it doesn't collide automatically with LevelEnterTrigger
+            nextLevelScript.InitializeEnemies(currentLevelIndex);
         }
     }
 
@@ -47,7 +49,7 @@ public class LevelManager : MonoBehaviour
         {
             Destroy(lastLevelTemp.gameObject);
         }
-        
+
         LoadNextLevel();
     }
 }

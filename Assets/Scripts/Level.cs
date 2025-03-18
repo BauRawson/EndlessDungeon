@@ -12,11 +12,16 @@ public class Level : MonoBehaviour
     private void Start()
     {
         door = GetComponentInChildren<Door>(); // Disgusting but I have no timeeeeeeee
+    }
+
+    public void InitializeEnemies(int difficultyMultiplier)
+    {
         enemies = GetComponentsInChildren<Enemy>();
 
         foreach (var enemy in enemies)
         {
             enemy.Defeated += OnEnemyDefeated;
+            enemy.Initialize(difficultyMultiplier);
         }
     }
 

@@ -78,7 +78,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: -184598843, guid: 629ce27951b0d2140b58c2a5a1bb616f, type: 3}
   m_Color: {r: 0.7176471, g: 0.055196345, b: 0, a: 1}
   m_FlipX: 0
@@ -168,7 +168,7 @@ MonoBehaviour:
   attackArea: {fileID: 292709040677157556}
   healthComponent: {fileID: 8351760143708679278}
   baseAttack: 1
-  baseDefense: 0
+  baseDefense: 0.1
   baseHealth: 10
   baseAttackSpeed: 0.5
   baseKnockbackPower: 1
