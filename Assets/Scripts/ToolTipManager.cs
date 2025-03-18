@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class ToolTipManager : MonoBehaviour
 {
@@ -25,8 +26,11 @@ public class ToolTipManager : MonoBehaviour
 
     private void Update()
     {
-        ToolTipTransform.position = Input.mousePosition;
-        AdjustBackgroundPosition();
+        if (isShowing)
+        {
+            ToolTipTransform.position = Input.mousePosition;
+            AdjustBackgroundPosition();
+        }
     }
 
     public void Show(ItemInstance itemInstance)
@@ -122,36 +126,21 @@ public class ToolTipManager : MonoBehaviour
         // Determine if tooltip should be on left or right side based on mouse position
         if (mousePosition.x < screenWidth / 2)
         {
-            // Position to the right of the cursor
             background.anchoredPosition = new Vector2(background.sizeDelta.x / 2 + offset, background.anchoredPosition.y);
         }
         else
         {
-            // Position to the left of the cursor
             background.anchoredPosition = new Vector2(-background.sizeDelta.x / 2 - offset, background.anchoredPosition.y);
         }
         
-        // Calculate vertical position
         float tooltipHeight = background.rect.height;
         float halfTooltipHeight = tooltipHeight / 2;
-        
-        // Default vertical position
+
         float verticalPosition = mousePosition.y;
-        
-        // Check if tooltip would go off the top of the screen
-        if (mousePosition.y + halfTooltipHeight > screenHeight)
-        {
-            // Snap to top of screen
-            verticalPosition = screenHeight - halfTooltipHeight;
-        }
-        // Check if tooltip would go off the bottom of the screen
-        else if (mousePosition.y - halfTooltipHeight < 0)
-        {
-            // Snap to bottom of screen
-            verticalPosition = halfTooltipHeight;
-        }
-        
-        // Apply vertical position
+
+        // Clamp the vertical position to ensure the tooltip stays within the screen bounds
+        verticalPosition = Mathf.Clamp(verticalPosition, halfTooltipHeight, screenHeight - halfTooltipHeight);
+
         background.position = new Vector3(background.position.x, verticalPosition, background.position.z);
     }
 

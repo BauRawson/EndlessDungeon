@@ -43,8 +43,10 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnEndDrag(PointerEventData eventData)
     {
         image.raycastTarget = true;
-        transform.SetParent(parentAfterDrag);
-        // If it's dragged on top of an InventorySlot, InventorySlot.OnDrop() will handle the rest.
+        if (!IsOnTopOfPlayer())
+        {
+            transform.SetParent(parentAfterDrag); // If it's dragged on top of an InventorySlot, InventorySlot.OnDrop() will handle the rest.
+        }
     }
 
     public void Enhance(ItemData enhancementData)
@@ -64,5 +66,31 @@ public class InventoryItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     public void OnPointerExit(PointerEventData eventData)
     {
         ToolTipManager.Instance.Hide();
+    }
+
+    public bool IsOnTopOfPlayer()
+    {
+        // Check if we're dragging a consumable over the player
+        if (itemInstance != null && itemInstance.itemData.itemType == ItemData.ItemType.Consumable)
+        {
+            // Cast a ray from mouse position into the world
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit2D hit = Physics2D.Raycast(ray.origin, ray.direction);
+            
+            // Check if we hit the player
+            if (hit.collider != null && hit.collider.CompareTag("Player"))
+            {
+                // Use the consumable on the player
+                Player player = hit.collider.GetComponent<Player>();
+                if (player != null)
+                {
+                    player.Heal(itemInstance.itemData.health);
+                    Destroy(gameObject);
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

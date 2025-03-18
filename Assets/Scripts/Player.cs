@@ -73,4 +73,9 @@ public class Player : Character
     {
         healthComponent.TakeDamage(damage);
     }
+
+    public void Heal(float amount)
+    {
+        healthComponent.Heal(amount);
+    }
 }
